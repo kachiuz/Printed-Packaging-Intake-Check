@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Packaging Intake Check</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			header {
+				height: 60px;
+				width: 99.5%;
+				text-align: center;
+				border-bottom: 1px solid grey;
+				padding: 5px;
+				position: relative;
+				background-color: #9fdf9f;
+				background-image: url("p-codes/header.png");
+			}
+			main {
+				background-color:#f2f2f2;
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
+			#title {
+				position: absolute;
+				left: 430px;
+				top: 20px;
+				color: white;
+				font-size: 25px;
+				font-weight: 500;
+			}
+			header > form {
+				position: absolute;
+				top: 10px;
+				left: 40%;
+			}
+			form {
+				width: 500px;
+				margin: auto
+			}
+			#button {
+				padding: 10px;
+				display: inline;
+				font-weight: 600;
+				font-size: 25px;
+				text-align: center;
+				background-color: #f2f2f2;
+				cursor: pointer;
+				color: grey;
+			}
+			#button:focus {
+				opacity: 0.5;
+			}
+			#p-CodeInput{
+				padding: 10px;
+				font-size: 25px;
+				text-align: center;
+				background-color: #f2f2f2;
+				dispay: inline;
+			}
+			figure {
+				width: 1090px;
+				height: 1490px;
+				border: 1px solid grey;
+				margin: auto;
+			}
+			img {
+				width: 100%;
+				margin: auto;
+				height: 100%;
+			}
+			h1{
+				font-weight: 800;
+				padding: 10px;
+				color: #006bb3;
+			}
+			footer {
+				border-top: 1px solid grey;
+				padding: 10px;
+				background-image: url("p-codes/header.png");
+				background-color: #47d1d1;
+				color: white;
+			}
+			h2 {
+				padding: 10px;
+				text-align: center;
+			}
+			.errorBorder {
+				border: 2px solid red;
+			}
+			/*FLEX BOX*/
+			.flex-container > div {
+			 	background-color: DodgerBlue;
+ 				color: white;
+ 				margin: 10px;
+ 				text-align: center;
+  				line-height: 75px;
+  				font-size: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<label id="title" for="p-codeInput"">Printed Packaging Intake Check</label>-->
+			<form> 
+				<input type="text" id="p-CodeInput" placeholder="Type in P-code here." maxlength="7">
+				<button type="button" id="button">Load</button>
+			</form>
+		</header>
+		<main>
+			<figure>
+				<object type="application/pdf" data="p-codes/P00000.pdf" width="100%" height="100%" id ="PDF" alt="P-code image not found. It is either that the P-code is incorrect or the image 
+				hasn't been added to image archive. In this case please check the 'Shared Drive S' for the P-code."></object>
+			</figure>
+		</main>
+		<footer>
+			<h2>Created by Andrius Pocius</h2>
+		</footer>
+		<script>
+                        //in this array product codes must be stored. They have to match the pdf file name in order to be loaded.
+			const PCodesArray = ["P00000", "P00001", "P00002"];
+
+			const loadPDF = () => {
+				//if script tries to load a pdf that does not exist, it stops working: it does not load pdf even if you enter a proper p code value
+				// will need to find a work around it. will probably have to store all P code values in an array, and before loading check if it exists, if it doesn,
+				// through an alert box.
+
+				let PDF = document.getElementById("PDF");
+				let inputValue = document.getElementById("p-CodeInput").value;
+
+				//loop troug p codes array
+				//if a match is found return true, else return false
+				let PcodeExists = false;
+				for(let i = 0; i<PCodesArray.length; i++){
+					//incase a p is typed instead of P, need to change it to capital P for comparison to work
+					if (inputValue.toUpperCase() === PCodesArray[i]) {PcodeExists = true;}else{};
+				}
+
+				if (PcodeExists === true) {
+					PDF.data="p-codes/"+inputValue+".pdf";
+				} else {
+					alert("No PDF file found for the P-code provided! Please check the original 'Datasheets - Printed Packaging' folder as it might not been added to this page yet.");
+				}
+
+			}
+			const init = ()=> {
+				document.getElementById("button").onclick = loadPDF;
+			}
+			onload = init;
+		</script>
+	</body>
+</html>
